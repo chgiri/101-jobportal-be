@@ -21,6 +21,10 @@ jobs:
         distribution: temurin
         java-version: 21
 
+    # Set execute permissions (if files were pushed from windows then it's needed)
+    - name: Set execute permissions on mvnw
+    run: chmod +x ./mvnw
+
     # Build JAR File
     - name: Build JAR File
       run: ./mvnw clean package -DskipTests
