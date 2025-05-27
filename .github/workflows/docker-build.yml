@@ -23,7 +23,7 @@ jobs:
 
     # Set execute permissions (if files were pushed from windows then it's needed)
     - name: Set execute permissions on mvnw
-    run: chmod +x ./mvnw
+      run: chmod +x ./mvnw
 
     # Build JAR File
     - name: Build JAR File
