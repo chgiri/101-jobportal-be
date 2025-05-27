@@ -26,6 +26,9 @@ import java.util.Map;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+    @Value("${FRONTEND_BASE_URL}")
+    private String frontendBaseUrl;
+
     private final OAuth2AuthorizedClientService authorizedClientService;
 
     @Autowired
@@ -33,10 +36,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         this.authorizedClientService = authorizedClientService;
     }
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    @Value("${GOOGLE_CLIENT_ID}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    @Value("${GOOGLE_CLIENT_SECRET}")
     private String clientSecret;
 
     @Override
@@ -54,7 +57,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             String authorizationCode = request.getParameter("code");
 
             // Construct redirect URL with the code
-            String redirectUrl = "http://localhost:5173/oauthlogon?token=" + authorizedClient.getAccessToken().getTokenValue();
+            String redirectUrl = frontendBaseUrl + "/oauthlogon?token=" + authorizedClient.getAccessToken().getTokenValue();
 
             // ResponseEntity<Map> tokenz = exchangeCodeForToken(authorizationCode);
 
@@ -69,7 +72,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String redirectUri = "http://localhost:5173/oauthlogon";
+        String redirectUri = frontendBaseUrl + "/oauthlogon";
 
         Map<String, String> params = new HashMap<>();
         params.put("code", code);
